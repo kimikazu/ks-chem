@@ -1,0 +1,516 @@
+:root {
+  color-scheme: light;
+  --ink: #17202a;
+  --muted: #5b6874;
+  --line: #d8dee5;
+  --paper: #fbfcfd;
+  --panel: #ffffff;
+  --teal: #007f86;
+  --rose: #c64562;
+  --gold: #b08200;
+  --violet: #6251a6;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--ink);
+  background: var(--paper);
+}
+
+.shell {
+  width: min(1180px, calc(100vw - 32px));
+  margin: 0 auto;
+  padding: 28px 0 44px;
+}
+
+.hero {
+  min-height: 320px;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  align-items: center;
+  gap: 24px;
+  border-bottom: 1px solid var(--line);
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  color: var(--teal);
+  font-size: 13px;
+  font-weight: 750;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  font-size: 64px;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.lead {
+  max-width: 720px;
+  margin: 18px 0 0;
+  font-size: 18px;
+  line-height: 1.75;
+  color: var(--muted);
+}
+
+.molecule {
+  position: relative;
+  height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  isolation: isolate;
+}
+
+.atom {
+  width: 76px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #fff;
+  border: 2px solid var(--ink);
+  font-weight: 800;
+  z-index: 3;
+}
+
+.bond {
+  width: 160px;
+  height: 6px;
+  background: var(--ink);
+  z-index: 2;
+}
+
+.orbital {
+  position: absolute;
+  width: 235px;
+  height: 128px;
+  border-radius: 50%;
+  opacity: 0.48;
+  mix-blend-mode: multiply;
+  z-index: 1;
+}
+
+.orbital-a { background: #72c8bc; transform: translateX(-52px); }
+.orbital-b { background: #ef91a6; transform: translateX(52px); }
+
+.screenSwitch {
+  display: inline-flex;
+  gap: 8px;
+  margin-top: 18px;
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.screenButton {
+  min-height: 36px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  padding: 0 14px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.screenButton.active {
+  background: var(--ink);
+  color: #fff;
+}
+
+.screen {
+  display: none;
+}
+
+.screen.active {
+  display: block;
+}
+
+.workspace {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 18px;
+  margin-top: 24px;
+}
+
+.controls, .panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.controls {
+  padding: 18px;
+  display: grid;
+  gap: 18px;
+  align-content: start;
+}
+
+label {
+  display: grid;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+input[type="range"] {
+  width: 100%;
+  accent-color: var(--teal);
+}
+
+select {
+  min-height: 38px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--ink);
+  padding: 0 10px;
+}
+
+output {
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.toggle {
+  grid-template-columns: 18px 1fr;
+  align-items: center;
+}
+
+.panel { padding: 18px; }
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.metrics div {
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 12px;
+  min-width: 0;
+}
+
+.metrics span {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.metrics strong {
+  display: block;
+  margin-top: 8px;
+  font-size: 20px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+canvas {
+  width: 100%;
+  display: block;
+}
+
+.matrixGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+pre {
+  margin: 0;
+  overflow: auto;
+}
+
+.matrixGrid pre, .code {
+  background: #111820;
+  color: #dce7ef;
+  border-radius: 7px;
+  padding: 12px;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.two {
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 12px;
+}
+
+.tab {
+  min-height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--ink);
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.tab.active {
+  background: var(--ink);
+  color: #fff;
+  border-color: var(--ink);
+}
+
+.doc {
+  color: var(--muted);
+  line-height: 1.75;
+  font-size: 14px;
+}
+
+.doc h3 {
+  color: var(--ink);
+  margin: 18px 0 8px;
+}
+
+.doc code {
+  background: #eef2f4;
+  color: var(--ink);
+  padding: 2px 5px;
+  border-radius: 4px;
+}
+
+.doc math {
+  font-family: "STIX Two Math", "Cambria Math", "Noto Serif Math", serif;
+  font-size: 1.12em;
+}
+
+.inlineMath {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 2px;
+  vertical-align: middle;
+}
+
+.displayMath {
+  display: block;
+  overflow-x: auto;
+  margin: 14px 0 16px;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: #f7fafb;
+}
+
+.displayMath math {
+  min-width: max-content;
+  margin: 0 auto;
+  font-size: 1.42em;
+  line-height: 1.8;
+}
+
+.displayMath mfrac {
+  font-size: 0.98em;
+}
+
+.displayMath msup > mrow:last-child {
+  font-size: 0.82em;
+}
+
+.codePanel {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-height: 430px;
+}
+
+.codeHeader, .densityHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.codeHeader span {
+  font-weight: 800;
+}
+
+.code {
+  max-height: 510px;
+  white-space: pre;
+}
+
+.densityHeader p {
+  margin: 6px 0 0;
+  color: var(--muted);
+}
+
+#gridBadge, #benchmarkRef {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 6px 10px;
+  color: var(--teal);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.benchmarkGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 16px;
+  align-items: start;
+}
+
+.benchmarkTableWrap {
+  overflow-x: auto;
+}
+
+.benchmarkTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+
+.benchmarkTable th, .benchmarkTable td {
+  border-bottom: 1px solid var(--line);
+  padding: 10px 8px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.benchmarkTable th:first-child, .benchmarkTable td:first-child {
+  text-align: left;
+  font-weight: 800;
+}
+
+.benchmarkTable tr.rhf td:first-child { color: var(--teal); }
+.benchmarkTable tr.uhf td:first-child { color: var(--rose); }
+.benchmarkTable tr.lda td:first-child { color: var(--violet); }
+.benchmarkTable tr.udft td:first-child { color: var(--gold); }
+
+.orbitalLayout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 18px;
+  margin-top: 24px;
+}
+
+.orbitalStage canvas {
+  min-height: 420px;
+}
+
+.orbitalTab {
+  min-height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--ink);
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.orbitalTab.active {
+  background: var(--ink);
+  color: #fff;
+  border-color: var(--ink);
+}
+
+.orbitalInfo {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+}
+
+.orbitalStats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.orbitalStats div {
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 12px;
+}
+
+.orbitalStats span {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.orbitalStats strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 22px;
+}
+
+.formulaPanel {
+  display: grid;
+  gap: 10px;
+  background: #f7fafb;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 14px;
+  overflow-x: auto;
+}
+
+.formulaPanel math {
+  min-width: max-content;
+  font-family: "STIX Two Math", "Cambria Math", "Noto Serif Math", serif;
+}
+
+.formulaBlock {
+  overflow-x: auto;
+}
+
+.formulaBlock math {
+  font-size: 1.26em;
+}
+
+.smallFormula math {
+  font-size: 1em;
+}
+
+.formulaPanel p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+@media (max-width: 900px) {
+  .hero, .workspace, .two, .benchmarkGrid, .orbitalLayout {
+    grid-template-columns: 1fr;
+  }
+
+  h1 { font-size: 48px; }
+
+  .metrics, .matrixGrid, .orbitalStats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .shell { width: min(100vw - 20px, 1180px); }
+  .metrics, .matrixGrid, .orbitalStats { grid-template-columns: 1fr; }
+  .metrics strong { font-size: 17px; }
+  .molecule { height: 210px; transform: scale(0.85); }
+  .screenSwitch { display: grid; width: 100%; }
+}

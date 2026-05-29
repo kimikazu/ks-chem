@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KS Chem Lab</title>
+    <link rel="stylesheet" href="./src/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Interactive Electronic Structure Notebook</p>
+          <h1>KS Chem Lab</h1>
+          <p class="lead">
+            H2/STO-3G を題材に、電子積分、Hartree-Fock、Kohn-Sham DFT の交換汎関数を
+            画面とコードの両方から追える学習環境です。
+          </p>
+        </div>
+        <div class="molecule" aria-label="H2 molecule visualization">
+          <div class="atom left">H</div>
+          <div class="bond"></div>
+          <div class="atom right">H</div>
+          <div class="orbital orbital-a"></div>
+          <div class="orbital orbital-b"></div>
+        </div>
+      </section>
+
+      <nav class="screenSwitch" aria-label="Simulator screens">
+        <button class="screenButton active" data-screen="ks">H2 / HF-DFT</button>
+        <button class="screenButton" data-screen="orbitals">H atom orbitals</button>
+      </nav>
+
+      <div id="ksScreen" class="screen active">
+        <section class="workspace">
+        <aside class="controls">
+          <label>
+            <span>結合距離 R / Å</span>
+            <input id="bond" type="range" min="0.35" max="3.0" step="0.01" value="0.74" />
+            <output id="bondValue">0.74</output>
+          </label>
+          <label>
+            <span>方法</span>
+            <select id="method">
+              <option value="rhf">RHF</option>
+              <option value="uhf">UHF</option>
+              <option value="lda">KS-DFT: LDA exchange</option>
+              <option value="udft">UKS-DFT: LSDA exchange</option>
+            </select>
+          </label>
+          <label>
+            <span>最大 SCF 反復</span>
+            <input id="iterations" type="range" min="1" max="60" step="1" value="60" />
+            <output id="iterationValue">60</output>
+          </label>
+          <label>
+            <span>混合率</span>
+            <input id="mixing" type="range" min="0.05" max="0.75" step="0.05" value="0.35" />
+            <output id="mixingValue">0.35</output>
+          </label>
+          <label class="toggle">
+            <input id="showGrid" type="checkbox" checked />
+            <span>LDA 数値グリッドを表示</span>
+          </label>
+        </aside>
+
+        <section class="panel">
+          <div class="densityHeader">
+            <div>
+              <h2>軸上の軌道と密度</h2>
+              <p>核間軸上の AO、結合性 MO、電子密度を同じスケールで描きます。</p>
+            </div>
+            <span id="gridBadge">grid on</span>
+          </div>
+          <canvas id="densityCanvas" width="1100" height="340"></canvas>
+        </section>
+      </section>
+
+      <section class="panel results">
+        <div class="metrics">
+          <div><span>全エネルギー</span><strong id="energy">-</strong></div>
+          <div><span>電子エネルギー</span><strong id="electronic">-</strong></div>
+          <div><span>HOMO-LUMO gap</span><strong id="gap">-</strong></div>
+          <div><span>&lt;S²&gt; / 収束</span><strong id="spin">-</strong></div>
+        </div>
+        <canvas id="energyCanvas" width="900" height="280"></canvas>
+        <div class="matrixGrid">
+          <pre id="overlap"></pre>
+          <pre id="core"></pre>
+          <pre id="fock"></pre>
+          <pre id="densityMatrix"></pre>
+        </div>
+      </section>
+
+      <section class="two">
+        <section class="panel">
+          <div class="tabs" role="tablist" aria-label="Learning sections">
+            <button class="tab active" data-doc="integrals">電子積分</button>
+            <button class="tab" data-doc="scf">SCF</button>
+            <button class="tab" data-doc="dft">汎関数</button>
+            <button class="tab" data-doc="experiments">実験</button>
+          </div>
+          <article id="doc" class="doc"></article>
+        </section>
+        <section class="panel codePanel">
+          <div class="codeHeader">
+            <span>Readable implementation</span>
+          <select id="codeSelect">
+              <option value="integrals">integrals.js</option>
+              <option value="scf">scf.js</option>
+              <option value="uhf">uhf.js</option>
+              <option value="functional">functional.js</option>
+            </select>
+          </div>
+          <pre id="codeView" class="code"></pre>
+        </section>
+      </section>
+
+      <section class="panel">
+        <div class="densityHeader">
+          <div>
+            <h2>実験値ベンチマーク</h2>
+            <p>
+              NIST 参照値と、結合距離スキャンから得た模型の平衡距離・解離エネルギーを比較します。
+              模型側には零点・温度補正を入れていないため、D は傾向を見るための値です。
+              <a href="https://cccbdb.nist.gov/" target="_blank" rel="noreferrer">CCCBDB</a>
+              /
+              <a href="https://www.nist.gov/publications/bond-dissociation-energies-simple-molecules" target="_blank" rel="noreferrer">BDE reference</a>
+            </p>
+          </div>
+          <span id="benchmarkRef">NIST H2</span>
+        </div>
+        <div class="benchmarkGrid">
+          <canvas id="benchmarkCanvas" width="1100" height="340"></canvas>
+          <div class="benchmarkTableWrap">
+            <table class="benchmarkTable">
+              <thead>
+                <tr>
+                  <th>方法</th>
+                  <th>R_e / Å</th>
+                  <th>ΔR</th>
+                  <th>D / kJ mol⁻¹</th>
+                  <th>ΔD</th>
+                </tr>
+              </thead>
+              <tbody id="benchmarkRows"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      </div>
+
+      <div id="orbitalsScreen" class="screen">
+        <section class="orbitalLayout">
+          <aside class="controls">
+            <label>
+              <span>軌道</span>
+              <select id="orbitalSelect">
+                <optgroup label="s">
+                  <option value="1s">1s</option>
+                  <option value="2s">2s</option>
+                </optgroup>
+                <optgroup label="p">
+                  <option value="2px">2p_x</option>
+                  <option value="2py">2p_y</option>
+                  <option value="2pz">2p_z</option>
+                </optgroup>
+                <optgroup label="d">
+                  <option value="3dz2">3d_z²</option>
+                  <option value="3dxz">3d_xz</option>
+                  <option value="3dyz">3d_yz</option>
+                  <option value="3dxy">3d_xy</option>
+                  <option value="3dx2y2">3d_x²-y²</option>
+                </optgroup>
+                <optgroup label="f">
+                  <option value="4fz3">4f_z³</option>
+                  <option value="4fxz2">4f_xz²</option>
+                  <option value="4fyz2">4f_yz²</option>
+                  <option value="4fzx2y2">4f_z(x²-y²)</option>
+                  <option value="4fxyz">4f_xyz</option>
+                  <option value="4fx3">4f_x(x²-3y²)</option>
+                  <option value="4fy3">4f_y(3x²-y²)</option>
+                </optgroup>
+              </select>
+            </label>
+            <label>
+              <span>表示</span>
+              <select id="orbitalMode">
+                <option value="mesh">等値曲面メッシュ</option>
+                <option value="surface">位相つき点面</option>
+                <option value="cloud">確率密度点群</option>
+              </select>
+            </label>
+            <label>
+              <span>しきい値 / 点数</span>
+              <input id="orbitalThreshold" type="range" min="0.08" max="0.75" step="0.01" value="0.28" />
+              <output id="orbitalThresholdValue">0.28</output>
+            </label>
+            <label>
+              <span>回転</span>
+              <input id="orbitalRotation" type="range" min="-180" max="180" step="1" value="28" />
+              <output id="orbitalRotationValue">28°</output>
+            </label>
+            <label class="toggle">
+              <input id="showOrbitalAxes" type="checkbox" checked />
+              <span>軸と節面を表示</span>
+            </label>
+          </aside>
+
+          <section class="panel orbitalStage">
+            <div class="densityHeader">
+              <div>
+                <h2 id="orbitalTitle">Hydrogen 1s orbital</h2>
+                <p id="orbitalSubtitle">水素原子の解析解を使った、位相と確率密度の可視化です。</p>
+              </div>
+              <span id="orbitalBadge">phase surface</span>
+            </div>
+            <canvas id="orbitalCanvas" width="1100" height="620"></canvas>
+          </section>
+        </section>
+
+        <section class="two">
+          <section class="panel">
+            <div class="tabs" role="tablist" aria-label="Orbital learning sections">
+              <button class="orbitalTab active" data-orbital-doc="concept">見方</button>
+              <button class="orbitalTab" data-orbital-doc="math">水素原子</button>
+              <button class="orbitalTab" data-orbital-doc="references">文献</button>
+            </div>
+            <article id="orbitalDoc" class="doc"></article>
+          </section>
+          <section class="panel orbitalInfo">
+            <h2>選択中の軌道</h2>
+            <div class="orbitalStats">
+              <div><span>n</span><strong id="orbitalN">1</strong></div>
+              <div><span>l</span><strong id="orbitalL">0</strong></div>
+              <div><span>角節面</span><strong id="orbitalAngularNodes">0</strong></div>
+              <div><span>動径節面</span><strong id="orbitalRadialNodes">0</strong></div>
+            </div>
+            <div id="orbitalFormula" class="formulaPanel"></div>
+          </section>
+        </section>
+      </div>
+    </main>
+    <script type="module" src="./src/app.js"></script>
+  </body>
+</html>
