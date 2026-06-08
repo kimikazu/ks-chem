@@ -18,6 +18,7 @@ const tgiEls = {
   description: document.querySelector("#tgiCategoryDescription"),
   badge: document.querySelector("#tgiCategoryBadge"),
   items: document.querySelector("#tgiItems"),
+  cats: document.querySelector("#tgiCats"),
   overall: document.querySelector("#tgiOverall"),
   summary: document.querySelector("#tgiSummary"),
   topGoals: document.querySelector("#tgiTopGoals")
@@ -98,6 +99,13 @@ function renderTgiItems() {
       </article>
     `;
   }).join("");
+  tgiEls.cats.innerHTML = category.cats.map((cat) => `
+    <article class="tgiCat">
+      <strong>${cat.label}</strong>
+      <span>${cat.name}</span>
+      <p>${cat.use}</p>
+    </article>
+  `).join("");
 }
 
 function renderTgiSummary() {
@@ -149,6 +157,12 @@ function tgiSummaryText() {
   for (const category of tgiCategories) {
     const average = tgiCategoryAverage(category);
     lines.push(`- ${category.title}: ${average === null ? "-" : average.toFixed(2)}`);
+  }
+  lines.push("");
+  lines.push("選択中の領域に対応するCATs:");
+  const selectedCategory = tgiCategories.find((category) => category.id === tgiControls.category.value) || tgiCategories[0];
+  for (const cat of selectedCategory.cats) {
+    lines.push(`- ${cat.label} (${cat.name}): ${cat.use}`);
   }
   lines.push("");
   lines.push("上位目標:");

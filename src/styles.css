@@ -622,6 +622,45 @@ pre {
   gap: 10px;
 }
 
+.tgiCatsPanel {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.tgiCats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.tgiCat {
+  display: grid;
+  gap: 5px;
+  align-content: start;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 12px;
+  background: #f7fafb;
+}
+
+.tgiCat strong {
+  color: var(--ink);
+}
+
+.tgiCat span {
+  color: var(--teal);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.tgiCat p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
 .tgiItem {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 230px;
@@ -817,6 +856,10 @@ pre {
   }
 
   .tgiItem {
+    grid-template-columns: 1fr;
+  }
+
+  .tgiCats {
     grid-template-columns: 1fr;
   }
 }
