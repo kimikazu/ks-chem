@@ -511,6 +511,11 @@ pre {
   line-height: 1.75;
 }
 
+.tgiTitle {
+  font-size: 42px;
+  line-height: 1.16;
+}
+
 .tgiProgressPanel {
   display: grid;
   align-content: center;
