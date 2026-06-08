@@ -29,6 +29,7 @@
       <nav class="screenSwitch" aria-label="Simulator screens">
         <button class="screenButton active" data-screen="ks">H2 / HF-DFT</button>
         <button class="screenButton" data-screen="orbitals">H atom orbitals</button>
+        <button class="screenButton" data-screen="tgi">TGI自己評価</button>
       </nav>
 
       <div id="ksScreen" class="screen active">
@@ -239,6 +240,67 @@
             </div>
             <div id="orbitalFormula" class="formulaPanel"></div>
           </section>
+        </section>
+      </div>
+
+      <div id="tgiScreen" class="screen">
+        <section class="tgiIntro">
+          <div>
+            <p class="eyebrow">Teaching Goals Inventory</p>
+            <h2>教授目標インベントリ 日本語適応版</h2>
+            <p>
+              Thomas A. Angelo と K. Patricia Cross による TGI の発想に基づき、
+              授業で何を重視しているかを 52 項目・6 領域で振り返る自己評価ツールです。
+              原版項目の逐語訳ではなく、教育利用のために日本語で再構成した非公式版です。
+            </p>
+          </div>
+          <div class="tgiProgressPanel">
+            <span>回答済み</span>
+            <strong id="tgiProgress">0 / 52</strong>
+            <div class="tgiProgressTrack"><div id="tgiProgressFill"></div></div>
+          </div>
+        </section>
+
+        <section class="tgiLayout">
+          <aside class="controls tgiControls">
+            <label>
+              <span>表示領域</span>
+              <select id="tgiCategorySelect"></select>
+            </label>
+            <div class="tgiScaleGuide" id="tgiScaleGuide"></div>
+            <button class="tgiAction" id="tgiSave" type="button">保存</button>
+            <button class="tgiAction" id="tgiCopy" type="button">要約をコピー</button>
+            <button class="tgiAction" id="tgiCsv" type="button">CSV保存</button>
+            <button class="tgiAction secondary" id="tgiPrint" type="button">印刷 / PDF</button>
+            <button class="tgiAction danger" id="tgiReset" type="button">リセット</button>
+            <p class="tgiNote" id="tgiStatus">回答はこのブラウザのローカル保存だけに記録されます。</p>
+          </aside>
+
+          <section class="panel tgiPanel">
+            <div class="densityHeader">
+              <div>
+                <h2 id="tgiCategoryTitle">高次の思考力</h2>
+                <p id="tgiCategoryDescription"></p>
+              </div>
+              <span id="tgiCategoryBadge">0.00</span>
+            </div>
+            <div id="tgiItems" class="tgiItems"></div>
+          </section>
+        </section>
+
+        <section class="panel tgiResults">
+          <div class="densityHeader">
+            <div>
+              <h2>結果の要約</h2>
+              <p>平均点が高い領域ほど、現在の授業設計で強く重視している教授目標です。</p>
+            </div>
+            <span id="tgiOverall">overall -</span>
+          </div>
+          <div id="tgiSummary" class="tgiSummary"></div>
+          <div class="tgiTopGoals">
+            <h2>上位目標</h2>
+            <ol id="tgiTopGoals"></ol>
+          </div>
         </section>
       </div>
     </main>
